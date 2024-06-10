@@ -6,7 +6,9 @@ const User=require('./User/userController')
 //User routes
 router.post('/registerUser',User.upload, User.registerUser);
 router.post('/viewUserById/:id', User.viewUserById)
-router.post('/editUserById/:id', User.editUserById);
+router.post('/editUserById/:id',User.upload,User.editUserById);
+router.post('/addUserPreferences/:id',User.addUserPreferences);
+
 router.post('/forgotPassword', User.forgotPassword);
 router.post('/viewUsers', User.viewUsers); 
 router.post('/deleteUserById/:id', User.deleteUserById);

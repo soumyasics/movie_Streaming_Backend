@@ -108,56 +108,85 @@ const viewUsers = (req, res) => {
         });
 };
 
-// Update User by ID
-const editUserById =async (req, res) => {
-    let flag=0
-    const { name,dob,gender,contact, email,state, nationality, pincode } = req.body;
-    let existingUser = await User.find({ contact });
-    let UserData = await User.findById({  _id: req.params.id  });
-await existingUser.map(x=>{
-    if (x.contact!=UserData.contact) {
-      flag=1        
+const editUserById = async (req, res) => {
+    let flag = 0;
+    const { name, dob, gender, contact, email, state, nationality, pincode } = req.body;
+  
+    try {
+      // Check if contact number already exists
+      let existingUser = await User.find({ contact });
+      let userData = await User.findById(req.params.id);
+       // Check if contact belongs to another user
+    existingUser.map(x => {
+        if (x.contact !== userData.contact) {
+          flag = 1;
+        }
+      });
+  
+      if (flag === 0) {
+        // Update user data
+        userData.name = name;
+        userData.contact = contact;
+        userData.email = email;
+        userData.dob = dob;
+        userData.state = state;
+        userData.nationality = nationality;
+        userData.pincode = pincode;
+        userData.gender = gender;
+        userData.img = req.file;
+        
+        // Save updated user document
+        await userData.save();
+  
+        res.json({
+          status: 200,
+          msg: "Updated successfully"
+        });
+      } else {
+        res.status(409).json({
+          status: 409,
+          msg: "Contact Number Already Registered With Us !!",
+          data: null
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        status: 500,
+        msg: "Data not Updated",
+        Error: err
+      });
     }
-    
-})
+  };
 
-if(flag==0){
-   
-   await User.findByIdAndUpdate({ _id: req.params.id }, {
-    name,
-    contact,
-    email,
-    dob,
-    password,
-    state,
-    nationality,
-    pincode,
-    gender,
-    img:req.file
-    })
-        .exec()
-        .then(data => {
-            res.json({
-                status: 200,
-                msg: "Updated successfully"
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                status: 500,
-                msg: "Data not Updated",
-                Error: err
-            });
+
+  
+const addUserPreferences = async (req, res) => {
+    const { preferredLanguages,preferredGenre } = req.body;
+    let userData = await User.findById(req.params.id);
+
+    try {
+    
+     
+        userData.preferredLanguages=preferredLanguages;
+        userData.preferredGenre=preferredGenre;
+  
+        // Save updated user document
+        await userData.save();
+  
+        res.json({
+          status: 200,
+          msg: "Updated successfully"
         });
+    
+    } catch (err) {
+        console.log(err);
+      res.status(500).json({
+        status: 500,
+        msg: "Data not Updated",
+        Error: err
+      });
     }
-    else{
-        return res.json({
-            status: 409,
-            msg: "contact Number Already Registered With Us !!",
-            data: null
-        });
-    }
-};
+  };
 
 // View User by ID
 const viewUserById = (req, res) => {
@@ -344,5 +373,6 @@ module.exports = {
     resetPassword,
     login,
     requireAuth,
-    upload
+    upload,
+    addUserPreferences
 };

@@ -56,7 +56,28 @@ const userSchema=mongoose.Schema({
     isActive:{
         type:Boolean,
         default:true
-    }
+    },
+    profileStatus:{
+        type:Boolean,
+        default:false
+    },
+    preferredLanguages:{
+        type:Array,
+        default:null
+        },
+        preferredGenre:{
+            type:Array,
+            default:null 
+        }
 });
+userSchema.pre('save', function (next) {
+    if (this.preferredLanguages && this.preferredLanguages.length > 0 && this.preferredGenre && this.preferredGenre.length > 0) {
+      this.profileStatus = true;
+    } else {
+      this.profileStatus = false;
+    }
+    next();
+  });
+
 module.exports=mongoose.model('users',userSchema)
 
