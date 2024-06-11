@@ -165,10 +165,21 @@ const addUserPreferences = async (req, res) => {
     let userData = await User.findById(req.params.id);
 
     try {
+        if(!preferredGenre&&!preferredLanguages){
+            return  res.json({
+                status: 200,
+                msg: "No Data Given for preferences"
+              });
+         }
     
-     
+     if(preferredLanguages && preferredLanguages.length>0){
         userData.preferredLanguages=preferredLanguages;
+
+     } else if(preferredGenre&&preferredGenre.length>0){
         userData.preferredGenre=preferredGenre;
+
+     }
+
   
         // Save updated user document
         await userData.save();
