@@ -21,7 +21,7 @@ router.post('/requireAuthUser', User.requireAuth);
 
 router.post('/createMovie',movie.upload,movie.createMovie)
 router.post('/updateMovieById/:id',movie.upload,movie.updateMovieById)
-router.post('/deleteMovieById',movie.deleteMovieById)
+router.post('/deleteMovieById/:id',movie.deleteMovieById)
 router.post('/addCast/:id',movie.uploadSingle,movie.addCast)
 router.post('/getMovieById/:id',movie.getMovieById)
 router.post('/approveMovieById/:id',movie.approveMovieById)
@@ -31,5 +31,6 @@ router.post('/getCastBYMovieId/:id',movie.getCastBYMovieId)
 router.post('/getMoviesByLanguage/:language',movie.getMoviesByLanguage)
 router.post('/getApprovedMovies',movie.getApprovedMovies)
 router.post('/getMoviesForApproval',movie.getMoviesForApproval)
+router.post('/getAllMovies',movie.getAllMovies)
 
 module.exports=router

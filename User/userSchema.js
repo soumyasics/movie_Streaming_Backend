@@ -61,6 +61,14 @@ const userSchema=mongoose.Schema({
         type:Boolean,
         default:false
     },
+    paymentStatus:{
+        type:Boolean,
+        default:false
+    },
+    paymentPlan:{
+        type:String,
+        default:'Nil'
+    },
     preferredLanguages:{
         type:Array,
         default:null

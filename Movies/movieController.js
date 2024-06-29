@@ -312,5 +312,6 @@ module.exports = {
     addCast,
     uploadSingle,
     getMoviesByLanguage,
-    getCastBYMovieId
+    getCastBYMovieId,
+    getAllMovies
 };
