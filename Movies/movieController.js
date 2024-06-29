@@ -66,7 +66,7 @@ const getApprovedMovies = async (req, res) => {
 // Get all movies pending approval
 const getMoviesForApproval = async (req, res) => {
     try {
-        const movies = await Movie.find({ isActive: false });
+        const movies = await Movie.find({ adminApproved: false });
         res.status(200).json({
             status: 200,
             message: 'Movies pending approval retrieved successfully',
@@ -80,6 +80,24 @@ const getMoviesForApproval = async (req, res) => {
     }
 };
 
+
+
+// Get all movies pending approval
+const getAllMovies = async (req, res) => {
+    try {
+        const movies = await Movie.find();
+        res.status(200).json({
+            status: 200,
+            message: 'Movies pending approval retrieved successfully',
+            data: movies
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        });
+    }
+};
 // Get a single movie by ID
 const getMovieById = async (req, res) => {
     try {
@@ -137,7 +155,7 @@ const updateMovieById = async (req, res) => {
 // Approve a movie by ID
 const approveMovieById = async (req, res) => {
     try {
-        const movie = await Movie.findByIdAndUpdate(req.params.id, { isActive: true }, { new: true });
+        const movie = await Movie.findByIdAndUpdate(req.params.id, {adminApproved:true,isActive: true }, { new: true });
         if (!movie) return res.status(404).json({ 
             status: 404, 
             message: 'Movie not found' 
