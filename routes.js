@@ -30,5 +30,6 @@ router.post('/getMoviesByDirector/:director',movie.getMoviesByDirector)
 router.post('/getCastBYMovieId/:id',movie.getCastBYMovieId)
 router.post('/getMoviesByLanguage/:language',movie.getMoviesByLanguage)
 router.post('/getApprovedMovies',movie.getApprovedMovies)
+router.post('/getMoviesForApproval',movie.getMoviesForApproval)
 
 module.exports=router
