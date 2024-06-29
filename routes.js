@@ -29,5 +29,6 @@ router.post('/getMoviesByGenre/:genre',movie.getMoviesByGenre)
 router.post('/getMoviesByDirector/:director',movie.getMoviesByDirector)
 router.post('/getCastBYMovieId/:id',movie.getCastBYMovieId)
 router.post('/getMoviesByLanguage/:language',movie.getMoviesByLanguage)
+router.post('/getApprovedMovies',movie.getApprovedMovies)
 
 module.exports=router

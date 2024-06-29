@@ -57,6 +57,10 @@ const movieSchema=mongoose.Schema({
         type:Boolean,
         default:false
     },
+    adminApproved:{
+        type:Boolean,
+        default:false
+    },
     video:{
         type:Object,
         required:true
