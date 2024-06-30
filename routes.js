@@ -1,6 +1,7 @@
 const router=require('express').Router()
 const User=require('./User/userController')
 const movie=require('./Movies/movieController')
+const complaint=require('./complaints/complaintController')
 
 
 //user routes
@@ -32,5 +33,12 @@ router.post('/getMoviesByLanguage/:language',movie.getMoviesByLanguage)
 router.post('/getApprovedMovies',movie.getApprovedMovies)
 router.post('/getMoviesForApproval',movie.getMoviesForApproval)
 router.post('/getAllMovies',movie.getAllMovies)
+
+//complaints
+router.post('/createComplaint',complaint.addcomplaint)
+router.post('/viewAllcomplaints',complaint.viewAllcomplaints)
+router.post('/viewcomplaintByUserId/:id',complaint.viewcomplaintByUserId)
+router.post('/deletecomplaintById/:id',complaint.deletecomplaintById)
+
 
 module.exports=router
