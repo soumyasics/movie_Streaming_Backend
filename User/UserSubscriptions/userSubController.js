@@ -77,7 +77,8 @@ const addPayment = async (req, res) => {
     cardNo: req.body.cardNo,
     cardName: req.body.cardName,
     cvv: req.body.cvv,
-    cardexpiry: req.body.cardexpiry,
+    year: req.body.year,
+    month: req.body.month,
     paymentStatus:true
     }
   )
