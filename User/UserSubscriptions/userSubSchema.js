@@ -39,7 +39,10 @@ const sSchema = new Schema(
         cvv:{
             type: Number,
         },
-        cardexpiry:{
+        year:{
+            type: String,
+        },
+        month:{
             type: String,
         }
 
