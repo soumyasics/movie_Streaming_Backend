@@ -2,6 +2,7 @@ const router=require('express').Router()
 const User=require('./User/userController')
 const movie=require('./Movies/movieController')
 const complaint=require('./complaints/complaintController')
+const subscriptions=require('./Subscriptions/subController')
 
 
 //user routes
@@ -40,5 +41,12 @@ router.post('/viewAllcomplaints',complaint.viewAllcomplaints)
 router.post('/viewcomplaintByUserId/:id',complaint.viewcomplaintByUserId)
 router.post('/deletecomplaintById/:id',complaint.deletecomplaintById)
 
+
+//Subscriptions
+router.post('/addsubscriptions',subscriptions.addsubscriptions)
+router.post('/viewAllsubscriptionss',subscriptions.viewAllsubscriptionss)
+router.post('/viewsubscriptionsById/:id',subscriptions.viewsubscriptionsById)
+router.post('/deletesubscriptionsById/:id',subscriptions.deletesubscriptionsById)
+router.post('/editsubscriptionsById/:id',subscriptions.editsubscriptionsById)
 
 module.exports=router
