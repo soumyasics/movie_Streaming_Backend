@@ -3,6 +3,7 @@ const User=require('./User/userController')
 const movie=require('./Movies/movieController')
 const complaint=require('./complaints/complaintController')
 const subscriptions=require('./Subscriptions/subController')
+const usersubscriptions=require('./User/UserSubscriptions/userSubController')
 
 
 //user routes
@@ -42,11 +43,20 @@ router.post('/viewcomplaintByUserId/:id',complaint.viewcomplaintByUserId)
 router.post('/deletecomplaintById/:id',complaint.deletecomplaintById)
 
 
-//Subscriptions
-router.post('/addsubscriptions',subscriptions.addsubscriptions)
-router.post('/viewAllsubscriptionss',subscriptions.viewAllsubscriptionss)
-router.post('/viewsubscriptionsById/:id',subscriptions.viewsubscriptionsById)
-router.post('/deletesubscriptionsById/:id',subscriptions.deletesubscriptionsById)
-router.post('/editsubscriptionsById/:id',subscriptions.editsubscriptionsById)
+//Subscription plans
+router.post('/addsubscriptionPlan',subscriptions.addsubscriptions)
+router.post('/viewAllsubscriptionPlans',subscriptions.viewAllsubscriptionss)
+router.post('/viewsubscriptionPlanById/:id',subscriptions.viewsubscriptionsById)
+router.post('/deletesubscriptionPlanById/:id',subscriptions.deletesubscriptionsById)
+router.post('/editsubscriptionPlanById/:id',subscriptions.editsubscriptionsById)
+
+
+// User Subscriptions
+router.post('/addSubscription',usersubscriptions.addSubscription)
+router.post('/viewAllSubscriptions',usersubscriptions.viewAllSubscriptions)
+router.post('/viewSubscriptionById/:id',usersubscriptions.viewSubscriptionById)
+router.post('/deleteSubscriptionById/:id',usersubscriptions.deleteSubscriptionById)
+router.post('/viewSubscriptionsByUserId/:id',usersubscriptions.viewSubscriptionsByUserId)
+router.post('/addPayment/:id',usersubscriptions.addPayment)
 
 module.exports=router
