@@ -72,6 +72,13 @@ const movieSchema=mongoose.Schema({
         adults:{
             type:Boolean,
         default:false
+        },
+        trailer:{
+            type:Object
+        },
+        imdb:{
+            type:Number,
+            default:0 
         }
   
       

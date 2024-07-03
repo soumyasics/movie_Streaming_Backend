@@ -18,7 +18,8 @@ const storage = multer.diskStorage({
 const uploadSingle = multer({ storage: storage }).single("image")
 const upload = multer({ storage: storage }).fields([
     { name: 'thumbnail', maxCount: 1 },
-    { name: 'video', maxCount: 1 }
+    { name: 'video', maxCount: 1 },
+    { name: 'trailer', maxCount: 1 }
 ]);
 
 // Create a new movie
@@ -30,6 +31,7 @@ const createMovie = async (req, res) => {
             ...body,
             thumbnail: files.thumbnail ? files.thumbnail[0] : null,
             video: files.video ? files.video[0] : null,
+            trailer: files.video ? files.trailer[0] : null,
         });
 
         const savedMovie = await movie.save();
@@ -136,6 +138,9 @@ const updateMovieById = async (req, res) => {
         }
         if (files.video) {
             movie.video = files.video[0];
+        }
+        if (files.trailer) {
+            movie.trailer = files.trailer[0];
         }
 
         const updatedMovie = await movie.save();
