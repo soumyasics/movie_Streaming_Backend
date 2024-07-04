@@ -4,6 +4,7 @@ const movie=require('./Movies/movieController')
 const complaint=require('./complaints/complaintController')
 const subscriptions=require('./Subscriptions/subController')
 const usersubscriptions=require('./User/UserSubscriptions/userSubController')
+const wishlist=require('./Wishlist/wishlistController')
 
 
 //user routes
@@ -58,5 +59,13 @@ router.post('/viewSubscriptionById/:id',usersubscriptions.viewSubscriptionById)
 router.post('/deleteSubscriptionById/:id',usersubscriptions.deleteSubscriptionById)
 router.post('/viewSubscriptionsByUserId/:id',usersubscriptions.viewSubscriptionsByUserId)
 router.post('/addPayment/:id',usersubscriptions.addPayment)
+
+
+//wishlist
+router.post('/addWishlist',wishlist.addWishlist)
+router.post('/viewAllWishlists',wishlist.viewAllWishlists)
+router.post('/viewWishlistById/:id',wishlist.viewWishlistById)
+router.post('/viewWishlistsByUserId/:id',wishlist.viewWishlistsByUserId)
+router.post('/deleteWishlistById/:id',wishlist.deleteWishlistById)
 
 module.exports=router
