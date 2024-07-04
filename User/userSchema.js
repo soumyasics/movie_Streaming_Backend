@@ -79,7 +79,7 @@ const userSchema=mongoose.Schema({
         },
         img:{
             type:Object,
-            required:true
+            // required:true
         }
 });
 userSchema.pre('save', function (next) {
