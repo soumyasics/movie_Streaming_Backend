@@ -72,6 +72,7 @@ const deleteSubscriptionById = (req, res) => {
 
 const addPayment = async (req, res) => {
   let user=await Subscription.findById(req.params.id)
+  console.log("user",user);
  await Subscription.findByIdAndUpdate({ _id: req.params.id },
     {
     cardNo: req.body.cardNo,
@@ -99,7 +100,7 @@ const addPayment = async (req, res) => {
       });
     });
 
-    await userSchema.findByIdAndUpdate({ _id: user._Id },
+    await userSchema.findByIdAndUpdate({ _id: user.userId },
       {
         paymentStatus:true
         
