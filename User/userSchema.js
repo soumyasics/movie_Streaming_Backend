@@ -76,6 +76,10 @@ const userSchema=mongoose.Schema({
         preferredGenre:{
             type:Array,
             default:null 
+        },
+        img:{
+            type:Object,
+            required:true
         }
 });
 userSchema.pre('save', function (next) {
