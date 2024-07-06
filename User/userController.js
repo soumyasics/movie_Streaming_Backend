@@ -133,7 +133,7 @@ const editUserById = async (req, res) => {
         userData.nationality = nationality;
         userData.pincode = pincode;
         userData.gender = gender;
-        userData.img = req.file;
+        // userData.img = req.file;
         
         // Save updated user document
         await userData.save();
