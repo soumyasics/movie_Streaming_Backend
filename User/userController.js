@@ -374,6 +374,38 @@ const createToken = (user) => {
   
   //Login Custome --finished
 
+// Search for users by name
+const searchUserByName = async (req, res) => {
+    const { name } = req.params;
+
+ 
+
+    try {
+        const users = await User.find({ name: new RegExp(name, 'i') });
+
+        if (users.length > 0) {
+            return res.json({
+                status: 200,
+                msg: 'Users found successfully',
+                data: users
+            });
+        } else {
+            return res.json({
+                status: 404,
+                msg: 'No users found'
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            msg: 'Error searching for users',
+            error: error.message
+        });
+    }
+};
+
+
+
 module.exports = {
     registerUser,
     viewUsers,
@@ -385,5 +417,6 @@ module.exports = {
     login,
     requireAuth,
     upload,
-    addUserPreferences
+    addUserPreferences,
+    searchUserByName
 };

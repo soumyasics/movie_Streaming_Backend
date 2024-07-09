@@ -6,6 +6,7 @@ const subscriptions=require('./Subscriptions/subController')
 const usersubscriptions=require('./User/UserSubscriptions/userSubController')
 const wishlist=require('./Wishlist/wishlistController')
 const like=require('./LikesAndComments/likesController')
+const chat=require('./Chats/chatController')
 
 //user routes
 
@@ -20,6 +21,7 @@ router.post('/deleteUserById/:id', User.deleteUserById);
 router.post('/resetPassword/:id', User.resetPassword);
 router.post('/loginUser', User.login);
 router.post('/requireAuthUser', User.requireAuth);
+router.post('/searchUserByName/:name', User.searchUserByName);
 
 //movies
 
@@ -76,5 +78,12 @@ router.post("/countLikes/:id", like.countLikes);
 router.post("/createReviews", like.createReviews);
 router.post("/viewReviewsById/:id", like.viewReviewsById);
 router.post("/viewReviewssByMovie/:id", like.viewReviewssByMovie);
+
+//chats
+router.post("/chatting", chat.chatting);
+router.post("/viewChatBetweenUsers", chat.viewChatBetweenUsers);
+router.post("/viewChatBetweenuserandSupport/:id", chat.viewChatBetweenuserandSuopport);
+router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUserById);
+
 
 module.exports=router
