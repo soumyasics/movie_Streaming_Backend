@@ -5,7 +5,7 @@ const complaint=require('./complaints/complaintController')
 const subscriptions=require('./Subscriptions/subController')
 const usersubscriptions=require('./User/UserSubscriptions/userSubController')
 const wishlist=require('./Wishlist/wishlistController')
-
+const like=require('./LikesAndComments/likesController')
 
 //user routes
 
@@ -67,5 +67,14 @@ router.post('/viewAllWishlists',wishlist.viewAllWishlists)
 router.post('/viewWishlistById/:id',wishlist.viewWishlistById)
 router.post('/viewWishlistsByUserId/:id',wishlist.viewWishlistsByUserId)
 router.post('/deleteWishlistById/:id',wishlist.deleteWishlistById)
+
+
+
+//likes
+router.post("/addLike", like.addLike);
+router.post("/countLikes/:id", like.countLikes);
+router.post("/createReviews", like.createReviews);
+router.post("/viewReviewsById/:id", like.viewReviewsById);
+router.post("/viewReviewssByMovie/:id", like.viewReviewssByMovie);
 
 module.exports=router
