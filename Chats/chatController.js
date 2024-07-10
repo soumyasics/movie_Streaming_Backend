@@ -1,16 +1,14 @@
 const chat = require("./chatSchema");
 
 const chatting = async (req, res) => {
-
   // Create a new message
   const message = new chat({
     msg: req.body.msg,
-  support:req.body.support,
-  from: req.body.from,
-
+    support: req.body.support,
+    from: req.body.from,
     fromId: req.body.fromId,
     toId: req.body.toId,
-    date:new Date()
+    date: new Date(),
   });
   await message
     .save()
@@ -32,37 +30,33 @@ const chatting = async (req, res) => {
 };
 
 const viewChatRecipientsforUserById = (req, res) => {
-  let uniqueUsers=[],support=false
+  let uniqueUsers = [],
+    support = false;
   chat
-    .find({ $or:[{fromId:req.params.id},{toId:req.params.id}]})
+    .find({ $or: [{ fromId: req.params.id }, { toId: req.params.id }] })
     .populate("fromId toId")
-  
 
     .exec()
     .then((data) => {
       // console.log(data);
       if (data.length > 0) {
-        let users = []
+        let users = [];
         data.map((x) => {
-          if(x.fromId || x.toId){
-        
-          users.push(x.fromId);
-        
-          users.push(x.toId);
-            }
-          
-        if(x.from=="support" || x.to=="support")
-          support=true
+          if (x.fromId || x.toId) {
+            users.push(x.fromId);
+
+            users.push(x.toId);
+          }
+
+          if (x.from == "support" || x.to == "support") support = true;
         });
-        if(users.length>0)
-         users = [...new Set(users)]
-       
+        if (users.length > 0) users = [...new Set(users)];
 
         res.json({
           status: 200,
           msg: "Data obtained successfully",
           users: users,
-        support:support
+          support: support,
         });
       } else {
         res.json({
@@ -117,16 +111,19 @@ const viewChatBetweenUsers = (req, res) => {
   let toId = req.body.toId;
   chat
     .find({
-      $or: [{
-       fromId: fromId, toId: toId },
-        {  fromId: toId, toId: fromId },
-      ],}
-    )
+      $or: [
+        {
+          fromId: fromId,
+          toId: toId,
+        },
+        { fromId: toId, toId: fromId },
+      ],
+    })
     .sort({ date: 1 })
-    .populate('fromId')
-    .populate('toId')
+    .populate("fromId")
+    .populate("toId")
     .exec()
-    
+
     .then((data) => {
       res.json({
         status: 200,
@@ -142,18 +139,21 @@ const viewChatBetweenUsers = (req, res) => {
       });
     });
 };
-const viewChatBetweenuserandSuopport= (req, res) => {
+const viewChatBetweenuserandSuopport = (req, res) => {
   let userid = req.params.id;
   chat
     .find({
-      $or: [{
-       fromId: userid, support: true },
+      $or: [
+        {
+          fromId: userid,
+          support: true,
+        },
         { toId: userid, support: true },
-      ],}
-    )
+      ],
+    })
     .sort({ date: 1 })
-    .populate('fromId')
-    .populate('toId')
+    .populate("fromId")
+    .populate("toId")
     .exec()
     .then((data) => {
       res.json({
@@ -173,7 +173,7 @@ const viewChatBetweenuserandSuopport= (req, res) => {
 
 module.exports = {
   chatting,
- viewChatBetweenUsers,
- viewChatBetweenuserandSuopport,
- viewChatRecipientsforUserById
+  viewChatBetweenUsers,
+  viewChatBetweenuserandSuopport,
+  viewChatRecipientsforUserById,
 };
