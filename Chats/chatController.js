@@ -115,7 +115,6 @@ const chatting = async (req, res) => {
 
 
 
-
 const viewChatRecipientsforUserById = (req, res) => {
   let support = false;
 
@@ -137,9 +136,10 @@ const viewChatRecipientsforUserById = (req, res) => {
             support = true;
           }
         });
+
         // Remove duplicates
         users = users.filter((user, index, self) =>
-          index === self.findIndex((t) => t._id === user._id)
+          index === self.findIndex((t) => t._id.toString() === user._id.toString())
         );
 
         res.json({
@@ -166,7 +166,6 @@ const viewChatRecipientsforUserById = (req, res) => {
       });
     });
 };
-
 const viewChatBetweenUsers = (req, res) => {
   let fromId = req.body.fromId;
   let toId = req.body.toId;
