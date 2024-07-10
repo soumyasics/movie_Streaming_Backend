@@ -72,12 +72,14 @@ router.post('/deleteWishlistById/:id',wishlist.deleteWishlistById)
 
 
 
-//likes
+//likes, reviews,rating
 router.post("/addLike", like.addLike);
 router.post("/countLikes/:id", like.countLikes);
 router.post("/createReviews", like.createReviews);
 router.post("/viewReviewsById/:id", like.viewReviewsById);
 router.post("/viewReviewssByMovie/:id", like.viewReviewssByMovie);
+router.post("/addRating/:id", movie.addRating);
+
 
 //chats
 router.post("/chatting", chat.chatting);
