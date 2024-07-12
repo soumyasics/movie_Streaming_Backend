@@ -13,9 +13,9 @@ const mSchema = new mongoose.Schema(
       ref: "groups"
     
     },
-    internId:{
+    memberId:{
       type: mongoose.Schema.Types.ObjectId,
-     ref:'interns'
+     ref:'users'
       
     },
     date:{
