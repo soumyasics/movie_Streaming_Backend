@@ -303,6 +303,43 @@ const getCastBYMovieId = async (req, res) => {
         });
     }
 };
+
+
+const addRating = (req, res) => {
+    let newRate = parseInt(req.body.rating);
+    let rating = 0;
+    Movie.findById({ _id: req.params.id })
+      .exec()
+      .then((data) => {
+        rating = data.rating;
+        if (data.rating != 0) rating = (rating + newRate) / 2;
+        else rating = newRate;
+        Movie.findByIdAndUpdate(
+          { _id: req.params.id },
+          {
+            rating: rating,
+          },
+          { new: true }
+        )
+          .exec()
+          .then((data) => {
+            res.json({
+              status: 200,
+              msg: "Data obtained successfully",
+              data: data,
+            });
+          })
+          .catch((err) => {
+            res.json({
+              status: 500,
+              msg: "Data not Inserted",
+              Error: err,
+            });
+          });
+      });
+  };
+
+
 module.exports = {
     createMovie,
     upload,
@@ -318,5 +355,6 @@ module.exports = {
     uploadSingle,
     getMoviesByLanguage,
     getCastBYMovieId,
-    getAllMovies
+    getAllMovies,
+    addRating
 };

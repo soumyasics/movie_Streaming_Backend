@@ -29,51 +29,55 @@ const chatting = async (req, res) => {
     });
 };
 
-const viewChatRecipientsforUserById = (req, res) => {
-  let uniqueUsers = [],
-    support = false;
-  chat
-    .find({ $or: [{ fromId: req.params.id }, { toId: req.params.id }] })
-    .populate("fromId toId")
+// const viewChatRecipientsforUserById = (req, res) => {
+//   let uniqueUsers=[],support=false
+//   chat
+//     .find({ $or:[{fromId:req.params.id},{toId:req.params.id}]})
+//     .populate("fromId toId")
+  
 
-    .exec()
-    .then((data) => {
-      // console.log(data);
-      if (data.length > 0) {
-        let users = [];
-        data.map((x) => {
-          if (x.fromId || x.toId) {
-            users.push(x.fromId);
+//     .exec()
+//     .then((data) => {
+//       // console.log(data);
+//       if (data.length > 0) {
+//         let users = []
+//         data.map((x) => {
+//           if(x.fromId || x.toId){
+        
+//           users.push(x.fromId);
+        
+//           users.push(x.toId);
+//             }
+          
+//         if(x.from=="support" || x.to=="support")
+//           support=true
+//         });
+//         if(users.length>0)
+//          users = [...new Set(users)]
+       
 
-            users.push(x.toId);
-          }
-
-          if (x.from == "support" || x.to == "support") support = true;
-        });
-        if (users.length > 0) users = [...new Set(users)];
-
-        res.json({
-          status: 200,
-          msg: "Data obtained successfully",
-          users: users,
-          support: support,
-        });
-      } else {
-        res.json({
-          status: 200,
-          msg: "No Data obtained ",
-        });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json({
-        status: 500,
-        msg: "Data not Inserted",
-        Error: err,
-      });
-    });
-};
+//         res.json({
+//           status: 200,
+//           msg: "Data obtained successfully",
+//           users: users,
+//         support:support
+//         });
+//       } else {
+//         res.json({
+//           status: 200,
+//           msg: "No Data obtained ",
+//         });
+//       }
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.json({
+//         status: 500,
+//         msg: "Data not Inserted",
+//         Error: err,
+//       });
+//     });
+// };
 // const viewChatRecipientsforUserId = (req, res) => {
 //   chat
 //     .find({ userId: req.params.id })
@@ -106,6 +110,60 @@ const viewChatRecipientsforUserById = (req, res) => {
 //       });
 //     });
 // };
+
+
+
+const viewChatRecipientsforUserById = (req, res) => {
+  let support = false;
+
+  chat
+    .find({ $or: [{ fromId: req.params.id }, { toId: req.params.id }] })
+    .populate("fromId toId")
+    .exec()
+    .then((data) => {
+      if (data.length > 0) {
+        let users = [];
+        data.forEach((x) => {
+          if (x.fromId && x.fromId._id.toString() !== req.params.id) {
+            users.push(x.fromId);
+          }
+          if (x.toId && x.toId._id.toString() !== req.params.id) {
+            users.push(x.toId);
+          }
+          if (x.from === "support" || x.to === "support") {
+            support = true;
+          }
+        });
+
+        // Remove duplicates
+        users = users.filter((user, index, self) =>
+          index === self.findIndex((t) => t._id.toString() === user._id.toString())
+        );
+
+        res.json({
+          status: 200,
+          msg: "Data obtained successfully",
+          users: users,
+          support: support,
+        });
+      } else {
+        res.json({
+          status: 200,
+          msg: "No Data obtained",
+          users: [],
+          support: false,
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: 500,
+        msg: "Data not obtained",
+        error: err,
+      });
+    });
+};
 const viewChatBetweenUsers = (req, res) => {
   let fromId = req.body.fromId;
   let toId = req.body.toId;
