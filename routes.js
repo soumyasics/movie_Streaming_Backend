@@ -7,6 +7,7 @@ const usersubscriptions=require('./User/UserSubscriptions/userSubController')
 const wishlist=require('./Wishlist/wishlistController')
 const like=require('./LikesAndComments/likesController')
 const chat=require('./Chats/chatController')
+const group=require('./Chats/GroupChats/chatController')
 
 //user routes
 
@@ -87,5 +88,17 @@ router.post("/viewChatBetweenUsers", chat.viewChatBetweenUsers);
 router.post("/viewChatBetweenuserandSupport/:id", chat.viewChatBetweenuserandSuopport);
 router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUserById);
 
+//group
+
+  
+  router.post("/createGroup/:id", group.createGroup);
+  router.post("/viewAllActiveGroups", group.viewAllActiveGroups);
+  router.post("/viewGroupById/:id", group.viewGroupById);
+  router.post("/closeGroupById/:id", group.closeGroupById);
+  router.post("/addUserToGroup", group.addUserToGroup);
+  router.post("/viewgroupChatsByGroupId/:id", group.viewgroupChatsByGroupId);
+  router.post("/viewgroupsByUserId/:id", group.viewgroupsByUserId);
+  router.post("/removeUserToGroup/:id", group.removeUserToGroup);
+  router.post("/groupChatting", group.groupChatting);
 
 module.exports=router

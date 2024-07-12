@@ -6,19 +6,23 @@ const gSchema = new mongoose.Schema(
     adminId:{
       type: mongoose.Schema.Types.ObjectId,
       required:true,
-     ref:'interns'
+     ref:'users'
       
     },
    title:{
     type:String,
     required:true
    },
-   status:{
+  
+status:{
+  type:Boolean,
+  default:true
+}
+ ,
+  isActive:{
     type:Boolean,
-    default:true
-   }
-
-  },
+  default:false
+  },},
   { timestamps: true }
 );
 
