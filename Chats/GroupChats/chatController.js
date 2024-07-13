@@ -111,7 +111,7 @@ const closeGroupById = (req, res) => {
 
 
 const addUserToGroup = async (req, res) => {
-
+  
   // Create a new group
   let flag = 0
   const exUser = await groupMembers.findOne({
