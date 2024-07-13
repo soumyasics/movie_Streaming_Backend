@@ -4,7 +4,7 @@ const groupMembers = require("./groupMembers");
 const groupChat = require("./chatSchema");
 
 const createGroup = async (req, res) => {
-
+  let grpId=null
   // Create a new group
   const addGroup = new group({
 
@@ -17,6 +17,7 @@ const createGroup = async (req, res) => {
     .save()
 
     .then((data) => {
+      grpId=data._id
       res.json({
         status: 200,
         msg: "Inserted successfully",
@@ -30,6 +31,21 @@ const createGroup = async (req, res) => {
         Error: err,
       });
     });
+
+    const datas = new groupMembers({
+
+      adminId: req.params.id,
+      groupId: grpId,
+    });
+    await datas
+      .save()
+
+      .then((datas) => {
+      console.log("added");
+      })
+      .catch((err) => {
+       console.log("err",err);
+      });
 };
 
 const viewAllActiveGroups = (req, res) => {
@@ -86,8 +102,8 @@ const viewGroupById = (req, res) => {
 
 
 // View Interns by ID
-const closeGroupById = (req, res) => {
-  group.findByIdAndUpdate({ _id: req.params.id }, { status: false })
+const closeGroupById =async (req, res) => {
+  await group.findByIdAndUpdate({ _id: req.params.id }, { status: false })
     .exec()
     .then(data => {
       res.json({
@@ -103,6 +119,8 @@ const closeGroupById = (req, res) => {
         Error: err
       });
     });
+    const done1 =groupMembers.updateMany({ groupId: req.params.id }, { status: false })
+
 };
 
 
@@ -150,6 +168,8 @@ const addUserToGroup = async (req, res) => {
       });
   }
   let done = await group.findByIdAndUpdate({ _id: req.body.groupId }, { isActive: true })
+  let done2 = await groupMembers.updateMany({ groupId: req.body.groupId }, { isActive: true })
+
   console.log(done);
 };
 
@@ -226,9 +246,19 @@ const groupChatting = async (req, res) => {
       });
     });
 };
-// View Interns by ID
-const viewgroupsByUserId = (req, res) => {
-  group.find({ userId: req.params.id, status: true }).populate('groupId')
+
+// View  by ID
+const viewgroupsByUserId = async(req, res) => {
+  const userId = req.params.id;
+
+console.log("req",req.params.id); 
+ const data = await groupMembers.find({
+  isActive: true,
+  $or: [
+    { userId: userId },
+    { adminId: userId }
+  ]
+}).populate('groupId')
     .exec()
     .then(data => {
       res.json({

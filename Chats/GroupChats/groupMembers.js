@@ -11,10 +11,23 @@ const gSchema = new mongoose.Schema(
     },
     memberId:{
         type: mongoose.Schema.Types.ObjectId,
-        required:true,
+       
        ref:'users'
         
       },
+      adminId:{
+        type: mongoose.Schema.Types.ObjectId,
+       ref:'users'
+        
+      },
+      isActive:{
+        type:Boolean,
+        default:false
+      },
+      status:{
+        type:Boolean,
+        default:true
+      }
   
 
   },
