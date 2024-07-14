@@ -255,7 +255,7 @@ console.log("req",req.params.id);
  const data = await groupMembers.find({
   isActive: true,
   $or: [
-    { userId: userId },
+    { memberId: userId },
     { adminId: userId }
   ]
 }).populate('groupId')
