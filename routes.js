@@ -100,5 +100,6 @@ router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUser
   router.post("/viewgroupsByUserId/:id", group.viewgroupsByUserId);
   router.post("/removeUserToGroup/:id", group.removeUserToGroup);
   router.post("/groupChatting", group.groupChatting);
+  router.post("/viewUsersByGroupId/:id", group.viewUsersByGroupId);
 
 module.exports=router
