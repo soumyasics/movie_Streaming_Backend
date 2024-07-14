@@ -178,8 +178,7 @@ const removeUserToGroup = async (req, res) => {
 
 
   await groupMembers.findByIdAndDelete({
-
-    _id: req.body.id
+removed:true
   }).exec()
 
     .then((data) => {
@@ -254,6 +253,7 @@ const viewgroupsByUserId = async(req, res) => {
 console.log("req",req.params.id); 
  const data = await groupMembers.find({
   isActive: true,
+  removed:false,
   $or: [
     { memberId: userId },
     { adminId: userId }
@@ -282,7 +282,8 @@ const viewUsersByGroupId = async(req, res) => {
 console.log("req",req.params.id); 
  const data = await groupMembers.find({
 
-  groupId: req.params.id
+  groupId: req.params.id,
+  removed:false
 }).populate('memberId adminId')
     .exec()
     .then(data => {

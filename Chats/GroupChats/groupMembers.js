@@ -27,6 +27,10 @@ const gSchema = new mongoose.Schema(
       status:{
         type:Boolean,
         default:true
+      },
+      removed:{
+        type:Boolean,
+        default:false
       }
   
 
