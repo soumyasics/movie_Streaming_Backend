@@ -185,7 +185,7 @@ const removeUserToGroup = async (req, res) => {
     .then((data) => {
       res.json({
         status: 200,
-        msg: "removed successfully",
+        msg: "Removed successfully",
         data: data,
       });
     })
