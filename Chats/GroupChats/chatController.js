@@ -177,9 +177,9 @@ const addUserToGroup = async (req, res) => {
 const removeUserToGroup = async (req, res) => {
 
 
-  await groupMembers.findByIdAndDelete({
-removed:true
-  }).exec()
+  await groupMembers.findOneAndUpdate({memberId:req.params.id,groupId:req.body.groupId}
+,{removed:true}
+  ).exec()
 
     .then((data) => {
       res.json({
