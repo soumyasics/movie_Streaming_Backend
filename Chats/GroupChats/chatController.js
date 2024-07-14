@@ -276,6 +276,30 @@ console.log("req",req.params.id);
     });
 };
 
+// View  by ID
+const viewUsersByGroupId = async(req, res) => {
+
+console.log("req",req.params.id); 
+ const data = await groupMembers.find({
+
+  groupId: req.params.id
+}).populate('memberId adminId')
+    .exec()
+    .then(data => {
+      res.json({
+        status: 200,
+        msg: "Data updated successfully",
+        data: data
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        status: 500,
+        msg: "No Data obtained",
+        Error: err
+      });
+    });
+};
 module.exports = {
   createGroup,
   viewAllActiveGroups,
@@ -285,5 +309,6 @@ module.exports = {
   viewgroupChatsByGroupId,
   viewgroupsByUserId,
   removeUserToGroup,
-  groupChatting
+  groupChatting,
+  viewUsersByGroupId
 };
