@@ -1,7 +1,16 @@
 const userSchema = require('../userSchema');
 const Subscription = require('./userSubSchema');
 
-const addSubscription = (req, res) => {
+const addSubscription =async (req, res) => {
+  let exSub=await Subscription.findOne({userId: req.body.userId,subId: req.body.subId})
+  if(exSub)
+  {
+return  res.json({
+  status: 400,
+  message: "You Have Already Subscribed to the Same Plan !! please choose Another Plan",
+
+})
+  }
   const newSubscription = new Subscription({
     userId: req.body.userId,
     date: new Date(),
