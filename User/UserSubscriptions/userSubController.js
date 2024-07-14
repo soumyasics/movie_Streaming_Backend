@@ -2,7 +2,7 @@ const userSchema = require('../userSchema');
 const Subscription = require('./userSubSchema');
 
 const addSubscription =async (req, res) => {
-  let exSub=await Subscription.findOne({userId: req.body.userId,subId: req.body.subId})
+  let exSub=await Subscription.findOne({userId: req.body.userId,subId: req.body.subId,paymentStatus:true})
   if(exSub)
   {
 return  res.json({
