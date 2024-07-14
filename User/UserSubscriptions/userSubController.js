@@ -29,7 +29,7 @@ const addSubscription = (req, res) => {
 }
 
 const viewAllSubscriptions = (req, res) => {
-  Subscription.find()
+  Subscription.find({paymentStatus:true})
     .populate('userId')
     .populate('subId')
     .exec()
@@ -138,7 +138,7 @@ const viewSubscriptionById = (req, res) => {
 };
 
 const viewSubscriptionsByUserId = (req, res) => {
-  Subscription.find({ userId: req.params.id })
+  Subscription.find({ userId: req.params.id ,paymentStatus:true})
   .populate('subId')
     .exec()
     .then(subscriptions => {
