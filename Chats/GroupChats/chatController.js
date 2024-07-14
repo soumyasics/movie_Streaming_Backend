@@ -129,7 +129,7 @@ const closeGroupById =async (req, res) => {
 
 
 const addUserToGroup = async (req, res) => {
-
+  
   // Create a new group
   let flag = 0
   const exUser = await groupMembers.findOne({
@@ -185,7 +185,7 @@ const removeUserToGroup = async (req, res) => {
     .then((data) => {
       res.json({
         status: 200,
-        msg: "removed successfully",
+        msg: "Removed successfully",
         data: data,
       });
     })

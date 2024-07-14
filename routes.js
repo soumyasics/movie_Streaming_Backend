@@ -98,7 +98,7 @@ router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUser
   router.post("/addUserToGroup", group.addUserToGroup);
   router.post("/viewgroupChatsByGroupId/:id", group.viewgroupChatsByGroupId);
   router.post("/viewgroupsByUserId/:id", group.viewgroupsByUserId);
-  router.post("/removeUserToGroup/:id", group.removeUserToGroup);
+  router.post("/removeUserToGroup", group.removeUserToGroup);
   router.post("/groupChatting", group.groupChatting);
   router.post("/viewUsersByGroupId/:id", group.viewUsersByGroupId);
 
