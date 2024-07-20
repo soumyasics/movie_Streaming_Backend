@@ -8,6 +8,7 @@ const wishlist=require('./Wishlist/wishlistController')
 const like=require('./LikesAndComments/likesController')
 const chat=require('./Chats/chatController')
 const group=require('./Chats/GroupChats/chatController')
+const History=require('./WatchHistory/historyController')
 
 //user routes
 
@@ -102,4 +103,9 @@ router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUser
   router.post("/groupChatting", group.groupChatting);
   router.post("/viewUsersByGroupId/:id", group.viewUsersByGroupId);
 
+
+  //History
+  router.post("/addHistory", History.addHistory);
+  router.post("/viewHistioryByMovieId/:id", History.viewHistioryByMovieId);
+  router.post("/viewHistoryByUserId/:id", History.viewHistoryByUserId);
 module.exports=router
