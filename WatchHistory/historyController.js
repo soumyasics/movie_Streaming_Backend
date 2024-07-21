@@ -10,10 +10,10 @@ const History = require('./historySchema');
 const addHistory = async (req, res) => {
     const { movieId, userId } = req.body;
 
-    if (!movieId || !review) {
+    if (!movieId || !userId) {
         return res.status(400).json({
             status: 400,
-            msg: 'movieId ID and Reviews are required.',
+            msg: 'movieId ID and userId are required.',
             data: null
         });
     }
