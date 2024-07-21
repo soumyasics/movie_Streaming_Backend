@@ -108,7 +108,7 @@ const getRecentlyPlayedMovies = async (req, res) => {
 
 const getSuggestedMovies = async (req, res) => {
     const userId = req.params.userId;
-
+console.log(userId);
     try {
         
         const recentHistory = await History.findOne({ userId })
@@ -129,8 +129,8 @@ const getSuggestedMovies = async (req, res) => {
         const userHistory = await History.find({ userId }).select('movieId');
         const watchedMovieIds = userHistory.map(history => history.movieId);
 
-        const suggestedMovie = await Movie.findOne({
-            genre,
+        const suggestedMovie = await Movie.find({ //updated by radhul
+            genre, 
             language,
             _id: { $nin: watchedMovieIds },
             isActive: true,
