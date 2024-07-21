@@ -392,7 +392,11 @@ const searchMovies = async (req, res) => {
 
 
         // Perform the search
-        const movies = await Movie.find({$or:[{name:data},{genre:data},{director:data},{scriptWriter:data},{language:data}]}).exec();
+        const movies = await Movie.find({$or:[{name:{$regex:data, $options: 'i' }},
+            {genre:{$regex:data, $options: 'i' }},
+            {director:{$regex:data, $options: 'i' }},
+            {scriptWriter:{$regex:data, $options: 'i' }},
+            {language:{$regex:data, $options: 'i' }}],adminApproved:true,isActive:true}).exec();
 
         res.status(200).json({
             status: 200,

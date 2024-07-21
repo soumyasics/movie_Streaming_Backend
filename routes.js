@@ -115,7 +115,7 @@ router.post('/getTopRatedMovies',movie.getTopRatedMovies)
 router.post('/getRecentlyAddedMovies',movie.getRecentlyAddedMovies)
 router.post('/getRecentlyPlayedMovies',History.getRecentlyPlayedMovies)
 router.post('/getSuggestedMovies/:userId',History.getSuggestedMovies)//updated by radhul
-router.post('/searchMovies',movie.searchMovies)
+router.post('/searchMovies/:data',movie.searchMovies)
 
 
   module.exports=router
