@@ -18,6 +18,6 @@ const sSchema=mongoose.Schema({
        
     },
  
-});
+},{timestamps:true});
 module.exports=mongoose.model('history',sSchema)
 
