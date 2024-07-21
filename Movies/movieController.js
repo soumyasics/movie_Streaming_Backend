@@ -377,6 +377,40 @@ const getRecentlyAddedMovies = async (req, res) => {
 };
 
 
+const searchMovies = async (req, res) => {
+    const data = req.params.data;
+
+    try {
+       
+        let searchCriteria = {};
+
+        // if (name) searchCriteria.name = { $regex: name, $options: 'i' }; 
+        // if (genre) searchCriteria.genre = genre;
+        // if (director) searchCriteria.director = { $regex: director, $options: 'i' }; 
+        // if (scriptWriter) searchCriteria.scriptWriter = { $regex: scriptWriter, $options: 'i' };
+        // if (language) searchCriteria.language = language;
+
+
+        // Perform the search
+        const movies = await Movie.find({$or:[{name:{$regex:data, $options: 'i' }},
+            {genre:{$regex:data, $options: 'i' }},
+            {director:{$regex:data, $options: 'i' }},
+            {scriptWriter:{$regex:data, $options: 'i' }},
+            {language:{$regex:data, $options: 'i' }}],adminApproved:true,isActive:true}).exec();
+
+        res.status(200).json({
+            status: 200,
+            message: 'Movies retrieved successfully',
+            data: movies,
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message,
+        });
+    }
+};
+
 module.exports = {
     createMovie,
     upload,
@@ -395,5 +429,6 @@ module.exports = {
     getAllMovies,
     addRating,
     getTopRatedMovies,
+    searchMovies,
     getRecentlyAddedMovies
 };
