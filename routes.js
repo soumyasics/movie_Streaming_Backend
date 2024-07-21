@@ -108,4 +108,13 @@ router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUser
   router.post("/addHistory", History.addHistory);
   router.post("/viewHistioryByMovieId/:id", History.viewHistioryByMovieId);
   router.post("/viewHistoryByUserId/:id", History.viewHistoryByUserId);
-module.exports=router
+
+
+//movie filters
+router.post('/getTopRatedMovies',movie.getTopRatedMovies)
+router.post('/getRecentlyAddedMovies',movie.getRecentlyAddedMovies)
+router.post('/getRecentlyPlayedMovies',History.getRecentlyPlayedMovies)
+router.post('/getSuggestedMovies/:userId',History.getSuggestedMovies)
+
+
+  module.exports=router

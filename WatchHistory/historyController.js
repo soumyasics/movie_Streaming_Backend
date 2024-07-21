@@ -1,7 +1,7 @@
 const express = require('express');
 
 const History = require('./historySchema');
-
+const Movie=require('../Movies/movieSchema')
 
 
 
@@ -83,11 +83,95 @@ const viewHistioryByMovieId = (req, res) => {
             });
         });
 };
+// Get 10 recently played movies
+const getRecentlyPlayedMovies = async (req, res) => {
+    try {
+        const recentlyPlayedMovies = await History.find()
+            .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
+            .limit(10) // Limit to 10 results
+            .populate('movieId'); // Populate movie details
+
+        res.status(200).json({
+            status: 200,
+            message: 'Recently played movies retrieved successfully',
+            data: recentlyPlayedMovies
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        });
+    }
+};
+
+
+
+const getSuggestedMovies = async (req, res) => {
+    const userId = req.params.userId; // Assuming the userId is passed as a route parameter
+
+    try {
+        // Step 1: Find the most recently played movie for the user
+        const recentHistory = await History.findOne({ userId })
+            .sort({ createdAt: -1 })
+            .populate('movieId')
+            .exec();
+
+        if (!recentHistory || !recentHistory.movieId) {
+            return res.status(404).json({
+                status: 404,
+                message: 'No recently played movie found for this user',
+            });
+        }
+
+        const recentMovie = recentHistory.movieId;
+        const { genre, language } = recentMovie;
+
+        // Step 2: Find all movieIds in user's history to exclude them
+        const userHistory = await History.find({ userId }).select('movieId');
+        const watchedMovieIds = userHistory.map(history => history.movieId);
+
+        // Step 3: Find the top-rated movie with the same genre and language, excluding watched movies
+        const suggestedMovie = await Movie.findOne({
+            genre,
+            language,
+            _id: { $nin: watchedMovieIds }, // Exclude all movies in the user's history
+            isActive: true,
+            adminApproved: true
+        })
+        .sort({ rating: -1 })
+        .exec();
+
+        if (!suggestedMovie) {
+            return res.status(404).json({
+                status: 404,
+                message: 'No suggested movie found with the same genre and language',
+            });
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: 'Suggested movie retrieved successfully',
+            data: suggestedMovie,
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message,
+        });
+    }
+};
+
+
+
+
+
 
 module.exports = {
     
       addHistory,
       viewHistioryByMovieId,
       viewHistoryByUserId,
+      getRecentlyPlayedMovies,
+      getSuggestedMovies
       
 };

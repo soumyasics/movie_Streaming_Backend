@@ -338,6 +338,43 @@ const addRating = (req, res) => {
           });
       });
   };
+  const getTopRatedMovies = async (req, res) => {
+    try {
+        const topRatedMovies = await Movie.find({ isActive: true, adminApproved: true })
+            .sort({ rating: -1 })
+            .limit(10);
+
+        res.status(200).json({
+            status: 200,
+            message: 'Top 10 rated movies retrieved successfully',
+            data: topRatedMovies
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        });
+    }
+};
+// Get recently added approved movies
+const getRecentlyAddedMovies = async (req, res) => {
+    try {
+        const recentlyAddedMovies = await Movie.find({ isActive: true, adminApproved: true })
+            .sort({ releaseDate: -1 }) // Sort by release date in descending order
+            .limit(10); // Limit to the most recent 10 movies
+
+        res.status(200).json({
+            status: 200,
+            message: 'Recently added movies retrieved successfully',
+            data: recentlyAddedMovies
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        });
+    }
+};
 
 
 module.exports = {
@@ -356,5 +393,7 @@ module.exports = {
     getMoviesByLanguage,
     getCastBYMovieId,
     getAllMovies,
-    addRating
+    addRating,
+    getTopRatedMovies,
+    getRecentlyAddedMovies
 };
