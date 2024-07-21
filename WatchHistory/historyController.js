@@ -44,7 +44,7 @@ const addHistory = async (req, res) => {
 
 // View all historyByUser
 const viewHistoryByUserId = (req, res) => {
-    History.find({userid:req.params.id})
+    History.find({userId:req.params.id})
         .populate('movieId')
         .exec()
         .then(data => {
