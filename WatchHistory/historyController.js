@@ -107,10 +107,10 @@ const getRecentlyPlayedMovies = async (req, res) => {
 
 
 const getSuggestedMovies = async (req, res) => {
-    const userId = req.params.userId; // Assuming the userId is passed as a route parameter
+    const userId = req.params.userId;
 
     try {
-        // Step 1: Find the most recently played movie for the user
+        
         const recentHistory = await History.findOne({ userId })
             .sort({ createdAt: -1 })
             .populate('movieId')
@@ -126,15 +126,13 @@ const getSuggestedMovies = async (req, res) => {
         const recentMovie = recentHistory.movieId;
         const { genre, language } = recentMovie;
 
-        // Step 2: Find all movieIds in user's history to exclude them
         const userHistory = await History.find({ userId }).select('movieId');
         const watchedMovieIds = userHistory.map(history => history.movieId);
 
-        // Step 3: Find the top-rated movie with the same genre and language, excluding watched movies
         const suggestedMovie = await Movie.findOne({
             genre,
             language,
-            _id: { $nin: watchedMovieIds }, // Exclude all movies in the user's history
+            _id: { $nin: watchedMovieIds },
             isActive: true,
             adminApproved: true
         })
