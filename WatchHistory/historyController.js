@@ -162,6 +162,50 @@ console.log(userId);
 
 
 
+const getMostPopularMovies = async () => {
+    try {
+        const popularMovies = await History.aggregate([
+            {
+                $group: {
+                    _id: "$movieId",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { count: -1 }
+            },
+            {
+                $limit: 10
+            },
+            {
+                $lookup: {
+                    from: 'movies',
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'movie'
+                }
+            },
+            {
+                $unwind: "$movie"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    movieId: "$_id",
+                    movieName: "$movie.name",
+                    count: 1
+                }
+            }
+        ]);
+
+        console.log( popularMovies);
+    } catch (error) {
+        console.error('Error fetching popular movies:', error);
+        throw error;
+    }
+};
+
+
 
 
 module.exports = {
@@ -170,6 +214,7 @@ module.exports = {
       viewHistioryByMovieId,
       viewHistoryByUserId,
       getRecentlyPlayedMovies,
-      getSuggestedMovies
+      getSuggestedMovies,
+      getMostPopularMovies
       
 };
