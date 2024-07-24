@@ -199,9 +199,17 @@ const getMostPopularMovies = async () => {
         ]);
 
         console.log( popularMovies);
+        res.status(200).json({
+            status: 200,
+            message: 'Popular movie retrieved successfully',
+            data: popularMovies,
+        });
     } catch (error) {
         console.error('Error fetching popular movies:', error);
-        throw error;
+        res.status(500).json({
+            status: 500,
+            message: error.message,
+        });
     }
 };
 
