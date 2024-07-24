@@ -162,7 +162,7 @@ console.log(userId);
 
 
 
-const getMostPopularMovies = async () => {
+const getMostPopularMovies = async (req,res) => {
     try {
         const popularMovies = await History.aggregate([
             {
