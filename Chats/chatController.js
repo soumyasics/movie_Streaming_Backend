@@ -167,6 +167,7 @@ const viewChatRecipientsforUserById = (req, res) => {
 const viewChatBetweenUsers = (req, res) => {
   let fromId = req.body.fromId;
   let toId = req.body.toId;
+  let loggedInUserId =req.body.loggedInUserId 
   chat
     .find({
       $or: [
@@ -176,6 +177,7 @@ const viewChatBetweenUsers = (req, res) => {
         },
         { fromId: toId, toId: fromId },
       ],
+      $nor: [{ hiddenFor: loggedInUserId }]
     })
     .sort({ date: 1 })
     .populate("fromId")
@@ -229,9 +231,68 @@ const viewChatBetweenuserandSuopport = (req, res) => {
     });
 };
 
+
+const clearChatForUser = async (req, res) => {
+  const { userId, chatPartnerId } = req.body; 
+  try {
+    await chat.updateMany(
+      {
+        $or: [
+          { fromId: userId, toId: chatPartnerId },
+          { fromId: chatPartnerId, toId: userId }
+        ]
+      },
+      { $addToSet: { hiddenFor: userId } } // Add userId to hiddenFor array if not already present
+    );
+
+    res.status(200).json({
+      status: 200,
+      msg: 'Chat cleared successfully for the user',
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      msg: 'Failed to clear chat',
+      error: err.message,
+    });
+  }
+};
+
+
+
+const clearChatWithSupport = async (req, res) => {
+  try {
+    const  userId  = req.params.id;
+
+ 
+
+    await chat.deleteMany({
+      $or: [
+        { fromId: userId, support: true },
+        { toId: userId, support: true }
+      ]
+    });
+
+    res.status(200).json({
+      status: 200,
+      msg: 'Chat with support cleared successfully.',
+    });
+  } catch (error) {
+    console.error('Error clearing chat with support:', error);
+    res.status(500).json({
+      status: 500,
+      msg: 'Failed to clear chat with support.',
+      error: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   chatting,
   viewChatBetweenUsers,
   viewChatBetweenuserandSuopport,
   viewChatRecipientsforUserById,
+  clearChatForUser,
+  clearChatWithSupport
 };

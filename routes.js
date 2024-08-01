@@ -88,6 +88,9 @@ router.post("/chatting", chat.chatting);
 router.post("/viewChatBetweenUsers", chat.viewChatBetweenUsers);
 router.post("/viewChatBetweenuserandSupport/:id", chat.viewChatBetweenuserandSuopport);
 router.post("/viewChatRecipientsforUserById/:id", chat.viewChatRecipientsforUserById);
+router.post("/clearChatBetweenUsers", chat.clearChatForUser);
+
+
 
 //group
 

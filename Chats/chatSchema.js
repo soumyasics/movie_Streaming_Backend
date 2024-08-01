@@ -30,9 +30,15 @@ const messageSchema = new mongoose.Schema(
    date:{
       type: Date,
       required: true,
-    }
+    },
+    hiddenFor: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "users",
+      default: [],
+    },
 
   },
+  
   { timestamps: true }
 );
 
