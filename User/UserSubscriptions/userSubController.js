@@ -1,8 +1,9 @@
 const userSchema = require('../userSchema');
 const Subscription = require('./userSubSchema');
+const SubPlans= require('../../Subscriptions/subSchema');
 
 const addSubscription =async (req, res) => {
-  let exSub=await Subscription.findOne({userId: req.body.userId,subId: req.body.subId,paymentStatus:true})
+  let exSub=await Subscription.findOne({userId: req.body.userId,paymentStatus:true})
   if(exSub)
   {
 return  res.json({
@@ -11,10 +12,18 @@ return  res.json({
 
 })
   }
+  let exSub1=await SubPlans.findById({_id: req.body.subId})
+  const remainingDays = exSub1.noOfMonth * 30;
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + remainingDays);
+
+
   const newSubscription = new Subscription({
     userId: req.body.userId,
     date: new Date(),
     subId: req.body.subId,
+    remainingDays:remainingDays,
+    expired:expirationDate
     
    
 
@@ -146,8 +155,16 @@ const viewSubscriptionById = (req, res) => {
     });
 };
 
-const viewSubscriptionsByUserId = (req, res) => {
-  Subscription.find({ userId: req.params.id ,paymentStatus:true})
+const viewSubscriptionsByUserId = async(req, res) => {
+  let sub=await Subscription.findOne({userId:req.params.id})
+
+  const currentDate = new Date();
+  const expirationDate = new Date(sub.expired);
+  const remainingDays = Math.ceil((expirationDate - currentDate) / (1000 * 60 * 60 * 24));
+  await Subscription.findByIdAndUpdate({_id:sub._id},{remainingDays:remainingDays})
+
+
+  Subscription.findOne({ userId: req.params.id ,paymentStatus:true})
   .populate('subId')
     .exec()
     .then(subscriptions => {
