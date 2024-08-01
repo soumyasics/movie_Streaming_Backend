@@ -26,9 +26,11 @@ const sSchema = new Schema(
             default:false
            
         },
+        remainingDays:{
+            type: Number
+        },
         expired:{
-            type: Boolean,
-            default:false
+            type: Date,
         },
         cardNo:{
             type: Number,
