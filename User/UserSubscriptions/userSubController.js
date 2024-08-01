@@ -6,9 +6,10 @@ const addSubscription =async (req, res) => {
   let exSub=await Subscription.findOne({userId: req.body.userId,paymentStatus:true})
   if(exSub)
   {
+    if(exSub.remainingDays>0)
 return  res.json({
   status: 400,
-  message: "You Have Already Subscribed to the Same Plan !! please choose Another Plan",
+  message: "You Have Already Subscribed here !!",
 
 })
   }
