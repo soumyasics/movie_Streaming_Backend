@@ -153,9 +153,9 @@ const viewSubscriptionById = (req, res) => {
         message: "Error retrieving subscription",
         error: err,
       });
+    
     });
 };
-
 const viewSubscriptionsByUserId = async(req, res) => {
   let sub=await Subscription.findOne({userId:req.params.id})
 if(sub)

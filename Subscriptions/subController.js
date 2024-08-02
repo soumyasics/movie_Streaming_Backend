@@ -32,7 +32,7 @@ if(existingPlan){
     console.error(err);
       res.json({
         err:err,
-      status:500,
+      status:500, 
    });
   })
    
