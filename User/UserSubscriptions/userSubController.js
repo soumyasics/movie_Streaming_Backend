@@ -158,8 +158,8 @@ const viewSubscriptionById = (req, res) => {
 
 const viewSubscriptionsByUserId = async(req, res) => {
   let sub=await Subscription.findOne({userId:req.params.id})
-
-  const currentDate = new Date();
+if(sub)
+{  const currentDate = new Date();
   const expirationDate = new Date(sub.expired);
   const remainingDays = Math.ceil((expirationDate - currentDate) / (1000 * 60 * 60 * 24));
   await Subscription.findByIdAndUpdate({_id:sub._id},{remainingDays:remainingDays})
@@ -183,6 +183,14 @@ const viewSubscriptionsByUserId = async(req, res) => {
         error: err,
       });
     });
+  }else{
+    res.json({
+      status: 405,
+      message: "No Subscription Plans",
+      data:null
+    
+    });
+  }
 };
 
 module.exports = {
