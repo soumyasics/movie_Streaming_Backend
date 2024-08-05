@@ -116,9 +116,12 @@ const editUserById = async (req, res) => {
       // Check if contact number already exists
       let existingUser = await User.find({ contact });
       let userData = await User.findById(req.params.id);
-       // Check if contact belongs to another user
+       // Check if contact belongs to another 
+       if (userData.contact!==req.body.contact)
     existingUser.map(x => {
-        if (x.contact !== userData.contact) {
+      console.log("cont",x.contact,req.body.contact);
+      
+            if(x.contact == req.body.contact) {
           flag = 1;
         }
       });
@@ -133,7 +136,7 @@ const editUserById = async (req, res) => {
         userData.nationality = nationality;
         userData.pincode = pincode;
         userData.gender = gender;
-        // userData.img = req.file;
+        userData.img = req.file;
         
         // Save updated user document
         await userData.save();
