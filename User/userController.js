@@ -111,6 +111,7 @@ const viewUsers = (req, res) => {
 const editUserById = async (req, res) => {
     let flag = 0;
     const { name, dob, gender, contact, email, state, nationality, pincode } = req.body;
+  console.log("file",req.file);
   
     try {
       // Check if contact number already exists
@@ -136,6 +137,7 @@ const editUserById = async (req, res) => {
         userData.nationality = nationality;
         userData.pincode = pincode;
         userData.gender = gender;
+        if(req.file)
         userData.img = req.file;
         
         // Save updated user document
