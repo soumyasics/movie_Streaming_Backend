@@ -119,8 +119,9 @@ const closeGroupById =async (req, res) => {
         Error: err
       });
     });
-    const done1 =groupMembers.updateMany({ groupId: req.params.id }, { status: false })
-
+    const done1 = await groupMembers.updateMany({ groupId: req.params.id }, { status: false })
+    console.log(done1);
+    
 };
 
 
@@ -254,6 +255,7 @@ console.log("req",req.params.id);
  const data = await groupMembers.find({
   isActive: true,
   removed:false,
+  status:true,
   $or: [
     { memberId: userId },
     { adminId: userId }
@@ -283,7 +285,8 @@ console.log("req",req.params.id);
  const data = await groupMembers.find({
 
   groupId: req.params.id,
-  removed:false
+  removed:false,
+  status:true,
 }).populate('memberId adminId')
     .exec()
     .then(data => {
